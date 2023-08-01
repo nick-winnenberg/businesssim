@@ -1,1 +1,1 @@
-web: gunicorn BusinessSim.wgsi
+web: gunicorn BusinessSim.wgsi --log-file - 
