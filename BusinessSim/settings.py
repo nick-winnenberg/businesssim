@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#b(s$mx&j3%!5^1@+8r_6i3(aain&3)ne6!pd=bu=e0hm24b&k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['https://foodtrucksim-eff0084a88fb.herokuapp.com/']
 
