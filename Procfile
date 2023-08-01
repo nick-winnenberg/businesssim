@@ -1,1 +1,1 @@
-web: gunicorn BusinessSim.wgsi --log-file - 
+web: gunicorn --pythonpath BusinessSim BusinessSim.wsgi
