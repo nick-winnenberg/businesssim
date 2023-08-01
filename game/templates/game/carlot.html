@@ -1,0 +1,58 @@
+{% extends "game/base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+    <img class="card-img-top" src="{% static 'game/images/carlot.png' %}" alt="Card image cap">
+    <div class = "jumbotron">
+        <h1>Welcome to the {{scenerio.name}} used carlot.</h1>
+        <p>At the carlot, you can purchase vehicles. These vehicles have a different capacity and quality score.</p>
+        <h5>Capacity</h5>
+        <p>Capacity is how many meals can you make before selling out! There are TWO things that influence capacity, your employee capacity and food truck capacity. There will usually be a bottle-neck dictating capacity, either you need more food trucks, or you need more employees! You, as an owner operator can make 750 meals by yourself in one month!</p>
+        <h5>Quality</h5>
+        <p>Similar to ingredient quality, your food truck and employees can increase, or decrease your quality score. </p>
+        <p>Can't afford the truck you want? No worries, visit the bank, meet with a VC, or give it a couple turns!</p>
+        <a href="{%url 'bank' business.pk%}" class="btn btn-primary btn-sm">Take a Loan</a>
+        <a href="{%url 'vc' business.pk%}" class="btn btn-primary btn-sm">Talk to a Venture Capitalist</a>
+        <a href="{%url 'player_dashboard' business.pk%}" class="btn btn-primary btn-sm">Back to the Dashboard</a>
+
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Current Cash Balance: ${{business.cashBalance}}</h3>
+        </div>
+        <div class="col">
+            <h3>Current Meal Quality: {{business.quality}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Food Truck</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Capacity Bonus</th>
+                    <th scope="col">Quality Bonus</th>
+                    <th scope="col">Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in available_trucks%}
+                <tr>
+                    <th scope="row">{{i.name}}</th>
+                    <td>{{i.price}}</td>
+                    <td>{{i.description}}</td>
+                    <td>{{i.capacityBonus}}</td>
+                    <td>{{i.qualityBonus}}</td>
+                    {%if business.cashBalance >= i.price%}
+                    <td><a href="{%url 'purchase_truck' i.pk%}" class="btn btn-danger">Purchase</a></td>
+                    {%else%}
+                    <td>Sorry champ! Can't Afford.</td>
+                    {%endif%}
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock content%}

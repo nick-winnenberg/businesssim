@@ -1,0 +1,207 @@
+{% extends "game/base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h1>THANK YOU!</h1>
+        <p>Thanks for paritcipating. I hope you enjoyed this simulation! Checkout your score below, and feel free to save this page.</p>
+        <h3>Your final score was {{report.final_score | floatformat:0}}</h3>
+        <a href="{%url 'scoreboard' report.pk%}" class="btn btn-primary btn-sm">Scoreboard</a>
+    </div>
+    <div class = "row">
+        <div class ="col">
+            <h3>Assets: ${{report.assets}}</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Cash Balance</th>
+                        <td>${{business.cashBalance}}</td> 
+                    </tr>
+                    {%for i in trucks%}
+                    <tr>
+                        <th scope="row">Food Truck: {{i.name}}</th>
+                        <td>${{i.price}}</td>
+                    </tr>
+                    {%endfor%}
+                    <tr>
+                        <th scope="row">Total</th>
+                        <td>${{report.assets |floatformat:2}}</td> 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class ="col">
+            <h3>Liabilities: ${{loan_amount | floatformat:2}}</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i in loans%}
+                    <tr>
+                        <th scope="row">{{i.bank_name}}</th>
+                        <td>${{i.total_value | floatformat:2}}</td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+        <div class ="col">
+            <h3>Owners Equity</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Assets</th>
+                        <td>{{report.assets}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">- Liabilites</th>
+                        <td>{{loan_amount| floatformat:2}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">= Owners Equity</th>
+                        <td>{{report.owners_equity| floatformat:2}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> - VC Split</th>
+                        <td>{{report.vc_cut}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> Final Score</th>
+                        <td>{{report.final_score| floatformat:2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class = "row">
+        <div class ="col">
+            <table class="table table-striped">
+                <thead>
+                    <h3>Profit and Loss</h3>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Total Sales</th>
+                        <td>{{report.total_sales | floatformat:0}} Meals</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Revenue</th>
+                        <td>${{report.total_revenue | floatformat:2}}</td> 
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Varriable Costs</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Ingredient Costs</th>
+                        <td>${{report.total_ingredient_costs | floatformat:2}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Comissions</th>
+                        <td>${{report.total_comissions | floatformat:2}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Varriable Costs</th>
+                        <td>${{report.total_varriable_costs | floatformat:2}}</td> 
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Fixed Costs</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Salaries</th>
+                        <td>${{report.total_salaries | floatformat:2}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Loan Payments</th>
+                        <td>${{report.total_loan_payments | floatformat:2}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Marketing Costs</th>
+                        <td>${{report.total_marketing_spend | floatformat:2}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Event Payments</th>
+                        <td>${{report.total_event_payments | floatformat:2}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Fixed Costs</th>
+                        <td>${{report.total_fixed_costs | floatformat:2}}</td> 
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Income</th>
+                        <td></td>
+                        <tr>
+                            <th scope="row">Net Income</th>
+                            <td>${{report.total_net_income | floatformat:2}}</td> 
+                        </tr>
+                        <tr>
+                            <th scope="row">Taxes</th>
+                            <td>${{report.total_tax_payments | floatformat:2}}</td> 
+                        </tr>
+                        <tr>
+                            <th scope="row">Total Profit</th>
+                            <td>${{report.total_profit | floatformat:2}}</td> 
+                        </tr>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <h3>Actions</h3>
+    <div class="row">
+        <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Round</th>
+                    <th scope="col">Riskiness</th>
+                    <th scope="col">Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in logs%}
+                <tr>
+                    <th scope="row">{{i.round}}</th>
+                    <th scope="row">{{i.risk}}</th>
+                    <th scope="row">{{i.message}}</th>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+{%endblock content%}

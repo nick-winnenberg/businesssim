@@ -1,0 +1,74 @@
+{% extends "game/base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+    <img class="card-img-top" src="{% static 'game/images/shop.png' %}" alt="Card image cap">
+    <div class="jumbotron">
+        <h1>Welcome to the {{scenerio.name}} shopping center.</h1>
+        <p>In this section, you'll select your ingredients for your meal!</p>
+        <p>The number one thing to consider is the quality versus price of each item. Some ingredients are high quality, but they usually come at a higher cost!</p>
+        <p>In this scenerio, you can select up to three ingredients. Remember your strategy!</p>
+        <p>After you select your ingredients, either return to your dashboard or move to the carlot if this is your first time visiting the shop!</p>
+        <a href="{%url 'carlot' business.pk%}" class="btn btn-primary btn-sm">Visit the Carlot</a>
+        <a href="{%url 'player_dashboard' business.pk%}" class="btn btn-primary btn-sm">Back to the Dashboard</a>
+    </div>
+    <H2>Current Meal Plan</H2>
+    <div class="row">
+        <div class="col">
+            <h3>Current Quality Score: {{current_qs | floatformat:2}}</h3>
+        </div>
+        <div class="col">
+            <h3>Current Cost per Meal: ${{current_cost}}</h3>
+        </div>
+    </div>
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Ingredient</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quality Bonus</th>
+                        <th scope="col">Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i in current_ingredients%}
+                    <tr>
+                        <th scope="row">{{i.name}}</th>
+                        <td>{{i.price}}</td>
+                        <td>{{i.qualityBonus}}</td>
+                        <td><a href="{%url 'delete_ingredient' i.pk%}" class="btn btn-danger">Remove</a></td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+        <H2>Available Ingredients</H2>
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Ingredient</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quality Bonus</th>
+                    <th scope="col">Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in available_ingredients%}
+                <tr>
+                    <th scope="row">{{i.name}}</th>
+                    <td>{{i.price}}</td>
+                    <td>{{i.qualityBonus}}</td>
+                    {%if 2 >= i_count%}
+                    <td><a href="{%url 'purchase_ingredient' i.pk%}" class="btn btn-primary">Select</a></td>
+                    {%else%}
+                    <td>3 Max Ingredients</td>
+                    {%endif%}
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock content%}

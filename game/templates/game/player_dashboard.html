@@ -1,0 +1,429 @@
+{% extends "game/base.html" %}
+{%load static%}
+{% block content %}
+
+{%if auth == False%}
+<H1>You don't have permission for this page</H1>
+{%else%}
+<div class="container">
+    <div class="jumbotron">
+        <h1>Welcome to the {{scenerio.name}} scenerio!</h1>
+        <!--<p>{{scenerio.description}}</p>
+        <p>{{market_share}}</p>
+        <p>{{food_type_turnout}}</p>
+        <p>{{ms_quantity_sold}}</p>
+        <p>{{total_sales}}</p>-->
+        
+        
+
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Round {{current_round.number}}
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        {%if rounds_count == 0%}
+                        <p>Welcome to the player dashboard! This message is displayed because you haven't move onto the next round yet.</p>
+                        <p>If you haven't selected your ingredients, or food truck, make sure to do that before moving onto the next round.</p>
+                        <p>Notice that you also have the ability to hire employees, or launch marketing campaigns.</p>
+                        <h3>Employees</h3>
+                        <p>Hiring employees increases your meal capacity if your food truck capacity is higher than your employee capacity. Likewise, they can increase or decrease qualtiy score.</p>
+                        <h3>Marketing Campaigns</h3>
+                        <p>Investing in marketing campaigns helps meet the sensitives of your target demographic. If you need a refresher on the demographics, click Market Research.</p>
+                        <p>Feel free to adapt your strategy on the dashboard, otherwise if you're feeling bullish, click next round below!</p>
+                        {%else%}
+                        <p>{{current_round.description}}</p>
+                        {%endif%}
+                    </blockquote>
+                    {%if business.cashBalance > -1 %}
+                    {%if current_round.number > 9%}
+                    <p>Good Game! -> </p>
+                    {%else%}
+                    <a href="{%url 'next_round' business.pk%}" class="btn btn-success btn-sm">Next Round</a>
+                    {%endif%}
+                    {%else%}
+                    <a href="#" class="btn btn-danger btn-sm">You cannot move onto the next round with a negative cash balance!</a>
+                    {%endif%}
+                    <a href="{%url 'new_report' business.pk%}" class="btn btn-danger btn-sm">End Game</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <h3>Your Foodtruck Identity</h3>
+            <a href="{%url 'edit_identity' business.pk%}" class="btn btn-primary btn-sm">Edit Identity</a>
+            <a href="{%url 'market_research' business.pk%}" class="btn btn-primary btn-sm">Market Research</a>
+            <br>
+            <br>
+            <p>Business Name: {{business.foodTruckName}}</p>
+            <p>Mission: {{business.mission}}</p>
+            <p>Vision: {{business.vision}}</p>
+            <p>Values: {{business.values}}</p>
+            <p>Food Type: {{business.foodType}}</p>
+        </div>
+        <div class="col">
+            <h3>Current Meal Price</h3>
+            <br>
+                <form action="{%url 'increase_price' business.id%}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary btn-sm">Increase Price</button>
+                </form>
+                <br>
+                <h3>${{business.price}}.00</h3>
+                <br>
+                <form action="{%url 'decrease_price' business.id%}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary btn-sm">Decrease Price</button>
+                </form>
+        </div>
+    </div>
+    <h2>Current Cash Balance: ${{business.cashBalance}} </h2>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Capacity</th>
+                        <th scope="col">Quality Score</th>
+                        <th scope="col">Price Score</th>
+                        <th scope="col">Online Marketing</th>
+                        <th scope="col">Print Marketing</th>
+                        <th scope="col">Word of Mouth Marketing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{business.capacity}}</td>
+                        <td>{{business.quality | floatformat:2}}</td>
+                        <td>{{business.priceStrat | floatformat:2}}</td>
+                        <td>{{business.onlineMarketing | floatformat:2}}</td>
+                        <td>{{business.printMarketing | floatformat:2}}</td>
+                        <td>{{business.wordOfMouthMarketing | floatformat:2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{%url 'bank' business.pk%}" class="btn btn-primary btn-sm">Take a Loan</a>
+            <a href="{%url 'vc' business.pk%}" class="btn btn-primary btn-sm">Talk to a Venture Capitalist</a>
+
+            <br>
+            <br>
+        </div>
+    </div>
+    <br>
+
+    <h2>Operations</h2>
+    <div class="row">
+        <div class="col">
+            <h3>Food Trucks</h3>
+            <a href="{%url 'carlot' business.pk%}" class="btn btn-primary btn-sm">Visit Carlot</a>
+            <br>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Food Truck</th>
+                        <th scope="col">Quality Bonus</th>
+                        <th scope="col">Capacity</th>
+                        <th scope="col">Sell</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for t in trucks%}
+                    <tr>
+                        <th scope="row">{{t.name}}</th>
+                        <td>{{t.qualityBonus}}</td>
+                        <td>{{t.capacityBonus}}</td>
+                        <td><a href="{%url 'delete_truck' t.pk%}" class="btn btn-danger">Sell</a></td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            <h5>Notes:</h5>
+            <p>Food Truck Capacity: {{ft_capacity}}</p>
+        </div>
+        
+
+        <div class="col">
+            <h3>Your Recipe</a></h3>
+            {%if ingredient_count >= 3%}
+            <a href="#" class="btn btn-success btn-sm">Three Ingredient Max in this scenerio!</a>
+            {%else%}
+            <a href="{%url 'shop' business.pk%}" class="btn btn-primary btn-sm">Select Ingredients</a>
+            {%endif%}
+            <br>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Ingredient</th>
+                        <th scope="col">Cost</th>
+                        <th scope="col">Quality</th>
+                        <th scope="col">Capacity Cost</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i in ingredients%}
+                    <tr>
+                        <th scope="row">{{i.name}}</th>
+                        <td>{{i.price}}</td>
+                        <td>{{i.qualityBonus}}</td>
+                        <td>{{i.capacityCost}}</td>
+                        <td><a href="{%url 'delete_ingredient' i.pk%}" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            <h5>Notes:</h5>
+            <p>Cost per Meal: ${{meal_cost}}</p>
+            <p>GM/Meal before Labor: ${{gm_per_meal}}</p>
+
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col">
+            <h3>Employees</h3>
+            <a href="{%url 'staffing' business.pk%}" class="btn btn-primary btn-sm">Hire Employee</a>
+            <br>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Employee</th>
+                        <th scope="col">Salary</th>
+                        <th scope="col">Commission</th>
+                        <th scope="col">Capacity</th>
+                        <th scope="col">Fire</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Self</th>
+                        <td>No Salary</td>
+                        <td>No Comission</td>
+                        <td>750</td>
+                        <td>Owner</td>
+                    </tr>
+                    {%for e in employees%}
+                    <tr>
+                        <th scope="row">{{e.name}}</th>
+                        <td>{{e.salary}}</td>
+                        <td>{{e.comission}}</td>
+                        <td>{{e.capacityBonus}}</td>
+                        <td><a href="{%url 'delete_employee' e.pk%}" class="btn btn-danger">Fire</a></td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            <h5>Notes:</h5>
+            <p>Employee Capacity: {{employee_capacity}}</p>
+            <p>Monthly Salaries: {{salaries}}</p>
+            <p>Comission Split: {{comission}}</p>
+            
+        </div>
+        <div class="col">
+            <h3>Marketing </h3>
+            <a href="{%url 'new_marketing_campaign' business.pk%}" class="btn btn-primary btn-sm">New Campaign for $250/Monthly</a>
+            <br>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for mc in marketing_campaigns%}
+                    <tr>
+                        <th scope="row">{{mc.name}}</th>
+                        <td>{{mc.marketing_type}}</td>
+                        <Td><a href="{%url 'delete_marketing' mc.pk%}" class="btn btn-danger">Delete</a></Td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            <h5>Notes:</h5>
+            <p>Total Marketing Spend = {{marketing_spend}}</p>
+            <br>
+            <br>
+        </div>
+
+    </div>
+    <br>
+    <H2>Finances
+    <br>
+    <h3>Loans</h3>
+    <div class="row">
+        {%for l in loans%}
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{l.bank_name}}</h5>
+              <p>Principal Amount: ${{l.amount| floatformat:2}}</p>
+              <p>APR: {{l.intrest| floatformat:2}}</p>
+              <p>Monthly Payment: ${{l.payment | floatformat:2}}</p>
+              <p>Balance Remaining: ${{l.total_value | floatformat:2}} </p>
+              <form action="{%url 'payoff_loan' business.id%}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm">Payoff Loan</button>
+            </form>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+      </div>
+
+    <br>
+    <h3>Profit and Loss</h3>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        
+                        {%for r in rounds%}
+                        <th scope="col">Round {{r.number}}</th>
+                        {% endfor %}
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Weather</th>
+                        {%for r in rounds%}
+                        <td scope="col">
+                            {%if r.weather > .85%}
+                            Great
+                            {%elif .65 > r.weather%}
+                            Poor
+                            {%else%}
+                            Fair
+                            {%endif%}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Sales</th>
+                        {%for r in rounds%}
+                        <td scope="col">{{r.sales}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Revenue</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.revenue| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row"><!--Blank on Purpose--></th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Varriable Costs</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ingredients</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.ingredient_cost| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Comissions</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.comission_cost| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Varriable</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.total_varriable_cost| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row"><!--Blank on Purpose--></th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Gross Margin</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.gm| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row"><!--Blank on Purpose--></th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fixed Costs</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Salaries</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.salaries| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Loan Payments</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.loan_payments| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Event Payments</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.event_payments| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Marketing Spend</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.marketing_spend| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Fixed Costs</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.total_fixed_cost| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row"><!--Blank on Purpose--></th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Net Income</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.net_income| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Tax</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.tax_expense| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Profit</th>
+                        {%for r in rounds%}
+                        <td scope="col">${{r.profit| floatformat:2}}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+{%endif%}
+{%endblock content%}

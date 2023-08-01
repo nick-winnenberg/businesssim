@@ -1,0 +1,45 @@
+{% extends "game/base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+    <img class="card-img-top" src="{% static 'game/images/bank.png' %}" alt="Card image cap">
+    <div class = "jumbotron">
+        <h1>Welcome to the {{scenerio.name}} Bank.</h1>
+        <h3>Cash Balance: ${{business.cashBalance}}.00  | Debt to Equity Ratio: {{debt_to_equity|floatformat:2}}</h3>
+        <p>Welcome to the bank! Here you can take out loans to help with investing in a new truck, or making payroll. All loans are principal-first loans, meaning all the intrest will be paid off at the end, this makes the math easier.</p>
+        <a href="{%url 'player_dashboard' business.pk%}" class="btn btn-primary btn-sm">Back to the Dashboard</a>
+    </div>
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Loan Bank</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Annual Intrest</th>
+                    <th scope="col">Duration in Months</th>
+                    <th scope="col">Monthly Payment</th>
+                    <th scope="col">Total Value</th>
+                    <th scope="col">Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in available_loans%}
+                <tr>
+                    <th scope="row">{{i.bank_name}}</th>
+                    <td>${{i.amount}}</td>
+                    <td>{{i.intrest}}</td>
+                    <td>{{i.how_many_months}}</td>
+                    <td>${{i.payment| floatformat:2}}</td>
+                    <td>${{i.total_value| floatformat:2}}</td>
+                    {%if debt_to_equity > 2%}
+                    <td>Debt to Equity Ratio to High</td>
+                    {%else%}
+                    <td><a href="{%url 'take_loan' i.pk%}" class="btn btn-danger">Select</a></td>
+                    {%endif%}
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock content%}

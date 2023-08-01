@@ -1,0 +1,38 @@
+{% extends "game/base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+    <div class = "jumbotron">
+        <h1>Classifieds!</h1>
+        <h3>Now Hiring</h3>
+    </div>
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Employee</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Capacity Bonus</th>
+                    <th scope="col">Quality Bonus</th>
+                    <th scope="col">Salary</th>
+                    <th scope="col">Comisssion</th>
+                    <th scope="col">Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in available_employees%}
+                <tr>
+                    <th scope="row">{{i.name}}</th>
+                    <td>{{i.description}}</td>
+                    <td>{{i.capacityBonus}}</td>
+                    <td>{{i.qualityBonus}}</td>
+                    <td>{{i.salary}}</td>
+                    <td>{{i.comission}}</td>
+                    <td><a href="{%url 'hire_employee' i.pk%}" class="btn btn-danger">Hire</a></td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock content%}

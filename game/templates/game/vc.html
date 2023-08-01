@@ -1,0 +1,28 @@
+{% extends "game/base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+    <img class="card-img-top" src="{% static 'game/images/vc.png' %}" alt="Card image cap">
+    
+    <div class = "jumbotron">
+        <h1>Welcome to the shark tank... </h1>
+        <h3>This nice gentleman would like to invest in your company! He's willing to trade you 2% of your companies equity, for $1,000.</h3>
+        <br>
+        <form action="{%url 'vc_trade' business.id%}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-sm">I'm in!</button>
+            <a href="{%url 'player_dashboard' business.pk%}" class="btn btn-primary btn-sm">Back to the Dashboard</a>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Venture Capitalist Ownership</h3>
+            <h5>{{business.vcOwnership| floatformat:2}}</h5>
+        </div>
+        <div class="col">
+            <h3>Cash in the Bank</h3>
+            <h5>${{business.cashBalance | floatformat:2}}</h5>
+        </div>
+    </div>
+</div>
+{%endblock content%}

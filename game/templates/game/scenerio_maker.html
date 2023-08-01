@@ -1,0 +1,154 @@
+{% extends "game/base.html" %}
+{%load static%}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h1>Scenerio Maker</h1>
+        <p>Quick and dirty, for development eyes only.</p>
+    </div>
+
+    <!--FoodTruck Table-->
+    <div>
+        <H3>Food Trucks</H3>
+        <a href="{%url 'new_food_truck' scenerio.pk%}" class="btn btn-warning">New Food Truck</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Capacity Bonus</th>
+                    <th scope="col">Quality Bonus</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for ft in foodtrucks%}
+                <tr>
+                    <th scope="row">{{ft.name}}</th>
+                    <td>${{ft.price}}</td>
+                    <td>{{ft.capacityBonus}}</td>
+                    <td>{{ft.qualityBonus}}</td>
+                    <td><a href="#" class="btn btn-danger">Delete</a></td>
+
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+
+    <!--Employee Table-->
+    <div>
+        <H3>Employees</H3>
+        <a href="{%url 'new_employee' scenerio.pk%}" class="btn btn-warning">New Employee</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Salary</th>
+                    <th scope="col">Comission</th>
+                    <th scope="col">Capacity Bonus</th>
+                    <th scope="col">Quality Bonus</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for e in employees%}
+                <tr>
+                    <th scope="row">{{e.name}}</th>
+                    <td>${{e.salary}}</td>
+                    <td>{{e.comission}}</td>
+                    <td>{{e.capacityBonus}}</td>
+                    <td>{{e.qualityBonus}}</td>
+                    <td><a href="#" class="btn btn-danger">Delete</a></td>
+
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+
+    <!--Ingredient Table-->
+    <div>
+        <H3>Ingredients</H3>
+        <a href="{%url 'new_ingredient' scenerio.pk%}" class="btn btn-warning">New Ingredient</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Capacity Cost</th>
+                    <th scope="col">Quality Bonus</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in ingredients%}
+                <tr>
+                    <th scope="row">{{i.name}}</th>
+                    <td>${{i.price}}</td>
+                    <td>{{i.capacityCost}}</td>
+                    <td>{{i.qualityBonus}}</td>
+                    <td><a href="#" class="btn btn-danger">Delete</a></td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+
+    <!--Market Segment Table-->
+    <div>
+        <H3>Market Segment: Total Population = {{total_pop}}</H3>
+        <a href="{%url 'new_market_segment' scenerio.pk%}" class="btn btn-warning">New Market Segment</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Population</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for ms in market_segments%}
+                <tr>
+                    <th scope="row">{{ms.name}}</th>
+                    <td>{{ms.population}}</td>
+                    <td><a href="#" class="btn btn-danger">Delete</a></td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+
+        <!--Round Table-->
+
+        <!--Loan Table-->
+        <div>
+            <H3>Loans</H3>
+            <a href="{%url 'new_loan' scenerio.pk%}" class="btn btn-warning">New Loan</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Bank Name</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Intrest</th>
+                        <th scope="col">Monthly Terms</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for l in loans%}
+                    <tr>
+                        <th scope="row">{{l.bank_name}}</th>
+                        <td>{{l.amount}}</td>
+                        <td>{{l.intrest}}</td>
+                        <td>{{l.how_many_months}}</td>
+                        <td><a href="#" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+
+</div>
+
+{%endblock content%}
