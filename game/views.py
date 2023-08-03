@@ -716,8 +716,9 @@ def delete_marketing(request, pk):
 @login_required
 def payoff_loan(request, pk):
     loan = Loan.objects.get(id=pk)
+    business = get_object_or_404(Business, user=request.user)
     loan.owner.cashBalance = loan.owner.cashBalance - loan.total_value
-    loan.owner.save()
+    business.save()
     loan.delete()
 
 
