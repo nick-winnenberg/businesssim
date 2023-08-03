@@ -717,12 +717,12 @@ def delete_marketing(request, pk):
 def payoff_loan(request, pk):
     loan = Loan.objects.get(id=pk)
     business = get_object_or_404(Business, user=request.user)
-    loan.owner.cashBalance = loan.owner.cashBalance - loan.total_value
+    business.cashBalance = business.cashBalance - loan.total_value
     business.save()
     loan.delete()
 
 
-    return HttpResponseRedirect(reverse('player_dashboard', kwargs={"pk":loan.owner.id}))
+    return HttpResponseRedirect(reverse('player_dashboard', kwargs={"pk":business.id}))
 
 @login_required
 def next_round(request,pk):
