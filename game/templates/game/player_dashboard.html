@@ -277,7 +277,7 @@
               <p>APR: {{l.intrest| floatformat:2}}</p>
               <p>Monthly Payment: ${{l.payment | floatformat:2}}</p>
               <p>Balance Remaining: ${{l.total_value | floatformat:2}} </p>
-              <form action="{%url 'payoff_loan' business.id%}" method="POST">
+              <form action="{%url 'payoff_loan' loan.id%}" method="POST">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary btn-sm">Payoff Loan</button>
             </form>
