@@ -8,11 +8,11 @@ from .forms import *
 from .models import *
 import random
 
-def paymentCalc(principal):
+def paymentCalc(principal,intrest,number_of_periods):
     principal = principal
-    intrest = float(.08)
+    intrest = intrest
     monthly_intrest = intrest/float(12)
-    number_of_periods = float(36)
+    number_of_periods = number_of_periods
     payment = (monthly_intrest*principal)/(float(1)-((float(1)+monthly_intrest)**-number_of_periods))
     return payment
 
@@ -570,7 +570,7 @@ def bank(request, pk):
     debt_to_equity = liabilites/business_value
 
     for i in available_loans: 
-        i.payment = paymentCalc(i.amount)
+        i.payment = paymentCalc(i.amount,i.intrest,i.how_many_months)
         i.total_value = i.payment * i.how_many_months
         i.save()
 
