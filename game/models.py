@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator 
 
 # Create your models here.
 class Scenerio(models.Model):
@@ -43,8 +44,8 @@ class Business(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE,)
     firstAndLastName = models.CharField(max_length=200, verbose_name="First and Last Name?")
     gender = models.CharField(max_length=200, choices=genderChoicesChoices, default="Other")
-    yearsProfessionalExperince = models.IntegerField(default=5, verbose_name="How many years of Professional Experince in your field?")
-    yearsofBusinessEducationExperince = models.IntegerField(default=5, verbose_name="How many years of Formal Business Education?")
+    yearsProfessionalExperince = models.IntegerField(default=5, verbose_name="How many years of Professional Experince in your field?", validators=[MinValueValidator(1), MaxValueValidator(50)])
+    yearsofBusinessEducationExperince = models.IntegerField(default=5, verbose_name="How many years of Formal Business Education?", validators=[MinValueValidator(1), MaxValueValidator(50)])
     jobTitle = models.CharField(max_length=200, verbose_name="Current Job Title?")
     industry = models.CharField(max_length=200, verbose_name="Current Industry?")
     summarize_your_strategy = models.CharField(max_length=2000, default="")
@@ -75,7 +76,7 @@ class Business(models.Model):
 class FoodTruck(models.Model):
     name = models.CharField(max_length=200)
     scenerio = models.ForeignKey(Scenerio, on_delete=models.CASCADE, related_name="food_truck_scenerio")
-    price = models.DecimalField(default=10000, max_digits=100, decimal_places=2)
+    price = models.DecimalField(default=10000, max_digits=100, decimal_places=2, validators=[MinValueValidator(1), MaxValueValidator(50)])
     description = models.CharField(max_length=2000)
     capacityBonus = models.IntegerField(default=1000)
     qualityBonus = models.FloatField(default=.03)
