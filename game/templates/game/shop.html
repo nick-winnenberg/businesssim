@@ -35,8 +35,8 @@
                     {%for i in current_ingredients%}
                     <tr>
                         <th scope="row">{{i.name}}</th>
-                        <td>{{i.price}}</td>
-                        <td>{{i.qualityBonus}}</td>
+                        <td>{{i.price|floatformat:2}}</td>
+                        <td>{{i.qualityBonus|floatformat:2}}</td>
                         <td><a href="{%url 'delete_ingredient' i.pk%}" class="btn btn-danger">Remove</a></td>
                     </tr>
                     {%endfor%}

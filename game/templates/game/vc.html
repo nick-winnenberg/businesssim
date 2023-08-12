@@ -5,23 +5,61 @@
     <img class="card-img-top" src="{% static 'game/images/vc.png' %}" alt="Card image cap">
     
     <div class = "jumbotron">
-        <h1>Welcome to the shark tank... </h1>
-        <h3>This nice gentleman would like to invest in your company! He's willing to trade you 2% of your companies equity, for $1,000.</h3>
+        <h1>Welcome to the Shark Tank! </h1>
+        <p>A group of investor are VERY intrested in getting into the food truck market. They are prepared to offer you ${{offer| floatformat:2}} in exchange for 2% of your company.</p>
+        <p>You cannot sell more than 50% of your company!</p>
+        <a href="{%url 'player_dashboard' business.pk%}" class="btn btn-primary btn-sm">Back to the Dashboard</a>
         <br>
-        <form action="{%url 'vc_trade' business.id%}" method="POST">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-sm">I'm in!</button>
-            <a href="{%url 'player_dashboard' business.pk%}" class="btn btn-primary btn-sm">Back to the Dashboard</a>
-        </form>
+
     </div>
     <div class="row">
         <div class="col">
+
             <h3>Venture Capitalist Ownership</h3>
+            {%if business.vcOwnership > .48 %}
+            <p>You cannot sell more than 49% of your company and retain control of the simulation!</p>
+            {%else%}
+            <form action="{%url 'vc_trade' business.id%}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm">Sell 2% of Company</button>
+            </form>
+            {%endif%}
             <h5>{{business.vcOwnership| floatformat:2}}</h5>
         </div>
         <div class="col">
-            <h3>Cash in the Bank</h3>
-            <h5>${{business.cashBalance | floatformat:2}}</h5>
+
+            <table class="table table-striped">
+                <thead>
+                    <h3>Finances</h3>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Total Assets</th>
+                        <td>${{assets | floatformat:0}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Liabilities</th>
+                        <td>${{liabilites | floatformat:0}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Current Valuation</th>
+                        <td>${{business_value| floatformat:0}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Business Value after VC Investment</th>
+                        <td>${{business_value_after_vc| floatformat:0}}</td> 
+                    </tr>
+                    <tr>
+                        <th scope="row">Offer for 2% of Company</th>
+                        <td>${{offer| floatformat:0}}</td> 
+                    </tr>
+                </tbody>
+            </table>
+            
         </div>
     </div>
 </div>

@@ -78,7 +78,7 @@ def player_dashboard(request, pk):
     trucks = FoodTruck.objects.filter(owner=business, master=False)
     loans = Loan.objects.filter(owner=business, master=False)
     employees = Employee.objects.filter(owner=business, master=False)
-    rounds = RoundNew.objects.filter(business=business)
+    rounds = RoundNew.objects.filter(business=business).order_by("number")
     demographics = MarketSegment.objects.filter(scenerio=scenerio)
     current_round = rounds.last()
 
@@ -585,17 +585,65 @@ def bank(request, pk):
 def vc(request, pk):
     user = request.user
     business = get_object_or_404(Business, user=user)
+    trucks = FoodTruck.objects.filter(owner=business, master=False)
+    loans = Loan.objects.filter(owner=business, master=False)
+
+    ft_balance = 0
+    for i in trucks:
+        ft_balance += i.price
+
+    liabilites = 0
+    for i in loans:
+        liabilites += i.total_value
+
+    assets = business.cashBalance + ft_balance
+
+    business_value = float(assets) - float(liabilites)
+
+    debt_to_equity = liabilites/business_value
+
+    business_value_after_vc = business_value - ((float(business.vcOwnership))*business_value)
+
+    offer = business_value_after_vc * .02
 
     return render(request,'game/vc.html', {
         'business':business,
+        'business_value': business_value,
+        'debt_to_equity':debt_to_equity,
+        'assets':assets,
+        'liabilites':liabilites,
+        'business_value_after_vc': business_value_after_vc,
+        'offer':offer,
     })
 
 @login_required
 def vc_trade(request,pk):
     if request.method == 'POST':
         business = get_object_or_404(Business, id=pk)
+
+        trucks = FoodTruck.objects.filter(owner=business, master=False)
+        loans = Loan.objects.filter(owner=business, master=False)
+
+        ft_balance = 0
+        for i in trucks:
+            ft_balance += i.price
+
+        liabilites = 0
+        for i in loans:
+            liabilites += i.total_value
+
+        assets = business.cashBalance + ft_balance
+
+        business_value = float(assets) - float(liabilites)
+
+        debt_to_equity = liabilites/business_value
+
+        business_value_after_vc = business_value - ((float(business.vcOwnership))*business_value)
+
+        offer = business_value_after_vc * .02
+
         business.vcOwnership = business.vcOwnership + .02
-        business.cashBalance = business.cashBalance + 1000
+        business.cashBalance = business.cashBalance + offer
         business.save()
 
         risk = 1
@@ -717,7 +765,12 @@ def delete_marketing(request, pk):
 def payoff_loan(request, pk):
     loan = Loan.objects.get(id=pk)
     business = get_object_or_404(Business, user=request.user)
-    business.cashBalance = business.cashBalance - loan.total_value
+
+    if loan.amount < loan.total_value:
+        business.cashBalance -= loan.amount
+    else:
+        business.cashBalance = business.cashBalance - loan.total_value
+        
     business.save()
     loan.delete()
 
