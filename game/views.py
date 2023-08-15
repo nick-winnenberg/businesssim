@@ -791,7 +791,8 @@ def next_round(request,pk):
     loans = Loan.objects.filter(owner=business, master=False)
 
     round_number = rounds.count()+1
-    business.current_round = business.current_round + 1
+
+    business.current_round = round_number
     business.save()
 
     meal_cost = 0
