@@ -66,7 +66,12 @@ class Business(models.Model):
     values = models.CharField(max_length=2000)
     cashBalance = models.IntegerField(default=10000)
     vcOwnership = models.FloatField(default=.00)
-    current_round = models.FloatField(default= 1, null=True)
+    market_awareness = models.FloatField(default= 0, null=True)
+    decision_making = models.FloatField(default= 0, null=True)
+    endurance = models.FloatField(default= 0, null=True)
+    identity_development = models.FloatField(default= 0, null=True)
+    influence = models.FloatField(default= 0, null=True)
+    
 
 
     def __str__(self):
