@@ -37,12 +37,12 @@ class RoundForm(forms.ModelForm):
 class BusinessForm(forms.ModelForm):
     class Meta:
         model = Business
-        fields = ['gender','yearsofBusinessEducationExperince','yearsProfessionalExperince','jobTitle','industry']
+        fields = ['yearsofBusinessEducationExperince','yearsProfessionalExperince','jobTitle','industry','gender']
 
 class BusinessIdentityForm(forms.ModelForm):
     class Meta:
         model = Business
-        fields = ['foodType','foodTruckName','mission','vision','values','summarize_your_strategy']
+        fields = ['foodType','foodTruckName','mission','vision','summarize_your_strategy']
 
 class PriceForm(forms.ModelForm):
     class Meta:
