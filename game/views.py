@@ -471,10 +471,6 @@ def purhcase_ingredient(request,pk):
             instance.save()
             form.save()
 
-            risk = 1
-            if ingredient.price > 2 or ingredient.price < 1: 
-                risk = 2
-
             log = LogEntry(business=business, round =business.current_round, message = f"{business} chose {ingredient.name}", risk=risk )
             log.save()
             return HttpResponseRedirect(reverse('shop', kwargs={'pk':business.id}))
@@ -531,12 +527,6 @@ def purhcase_truck(request,pk):
 
             business.cashBalance = business.cashBalance - instance.price
             business.save()
-
-            risk = 1
-            if truck.price >=10000:
-                risk = 2
-            if truck.price >=20000:
-                risk = 3
 
             log = LogEntry(business=business, round =business.current_round, message = f"{business} bought {truck.name} Food Truck.", risk=risk )
             log.save()
@@ -677,11 +667,6 @@ def take_loan(request,pk):
             business.cashBalance = business.cashBalance + instance.amount
             business.save()
 
-            risk = 1
-            if loan.amount > 10000:
-                risk = 2
-
-
             log = LogEntry(business=business, round =business.current_round, message = f"{business} took out a loan for {loan.amount}", risk=risk )
             log.save()
 
@@ -723,10 +708,6 @@ def hire_employee(request,pk):
             instance.master = False
             instance.save()
             form.save()
-
-            risk = 1
-            if employee.salary > 1000:
-                risk =2
 
             log = LogEntry(business=business, round =business.current_round, message = f"{business} hired {employee.name}", risk=risk )
             log.save()
