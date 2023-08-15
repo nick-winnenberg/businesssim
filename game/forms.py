@@ -37,7 +37,7 @@ class RoundForm(forms.ModelForm):
 class BusinessForm(forms.ModelForm):
     class Meta:
         model = Business
-        fields = ['firstAndLastName','gender','yearsofBusinessEducationExperince','yearsProfessionalExperince','jobTitle','industry']
+        fields = ['gender','yearsofBusinessEducationExperince','yearsProfessionalExperince','jobTitle','industry']
 
 class BusinessIdentityForm(forms.ModelForm):
     class Meta:
