@@ -21,7 +21,7 @@
                 <tbody>
                     <tr>
                         <th scope="row">Cash Balance</th>
-                        <td>${{business.cashBalance}}</td> 
+                        <td>${{business.cashBalance| floatformat:2}}</td> 
                     </tr>
                     {%for i in trucks%}
                     <tr>
@@ -67,23 +67,23 @@
                 <tbody>
                     <tr>
                         <th scope="row">Assets</th>
-                        <td>{{report.assets}}</td>
+                        <td>${{report.assets}}</td>
                     </tr>
                     <tr>
                         <th scope="row">- Liabilites</th>
-                        <td>{{loan_amount| floatformat:2}}</td>
+                        <td>${{loan_amount| floatformat:2}}</td>
                     </tr>
                     <tr>
                         <th scope="row">= Owners Equity</th>
-                        <td>{{report.owners_equity| floatformat:2}}</td>
+                        <td>${{report.owners_equity| floatformat:2}}</td>
                     </tr>
                     <tr>
                         <th scope="row"> - VC Split</th>
-                        <td>{{report.vc_cut}}</td>
+                        <td>${{report.vc_cut| floatformat:2}}</td>
                     </tr>
                     <tr>
                         <th scope="row"> Final Score</th>
-                        <td>{{report.final_score| floatformat:2}}</td>
+                        <td>${{report.final_score| floatformat:2}}</td>
                     </tr>
                 </tbody>
             </table>
