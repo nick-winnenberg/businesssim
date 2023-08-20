@@ -57,7 +57,11 @@
         <div class="card-body">
             <h5 class="card-title">{{scenerio.name}}</h5>
             <p class="card-text">{{scenerio.description}}</p>
+            {%if current == False%}
             <a href="{%url 'new_business' scenerio.pk%}" class="btn btn-primary">New</a>
+            {%else%}
+            <a href="#" class="btn btn-primary">Press Continue Above!</a>
+            {%endif%}
             {%if scenerio.gm == user%}
             <a href="{%url 'scenerio_maker' scenerio.pk%}" class="btn btn-warning">Edit</a>
             {%endif%}

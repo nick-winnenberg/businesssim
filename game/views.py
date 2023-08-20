@@ -25,11 +25,10 @@ def home(request):
     current = True
     cc = businesses.count()
 
-    for b in businesses:
-        if b.user == user:
-            current = True
-        else: 
-            current = False
+    if businesses.count() == 0:
+        current = False
+    else:
+        current = True
 
     return render(request,'game/home.html', {
         'scenerios':scenerios,
@@ -417,7 +416,16 @@ def increase_price(request,pk):
         business = get_object_or_404(Business, id=pk)
         business.price = business.price + 1
         business.priceStrat = business.priceStrat - .10
+
+        if business.current_round <= 2:
+            business.decision_making += 1
+        elif business.current_round >= 8:
+            business.endurance += 1
+        
         business.save()
+
+        log = LogEntry(business=business, round =business.current_round, message = f"{business} raised their price to {business.price}." )
+        log.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -428,7 +436,16 @@ def decrease_price(request,pk):
         business.price = business.price - 1
         business.priceStrat = business.priceStrat + .10
 
+        if business.current_round <= 2:
+            business.decision_making += 1
+        elif business.current_round >= 8:
+            business.endurance += 1
+        
         business.save()
+
+        log = LogEntry(business=business, round =business.current_round, message = f"{business} lowered their price to {business.price}." )
+        log.save()
+
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -444,6 +461,12 @@ def new_marketing_campaign(request,pk):
             instance.owner = business
             instance.save()
             form.save()
+
+            if business.current_round <= 2:
+                business.decision_making += 1
+            elif business.current_round >= 8:
+                business.endurance += 1
+            
             return HttpResponseRedirect(reverse('player_dashboard', kwargs={'pk':business.id}))
     else:
         form = MarketingCampaignForm()
@@ -526,6 +549,12 @@ def purhcase_truck(request,pk):
             form.save()
 
             business.cashBalance = business.cashBalance - instance.price
+
+            if business.current_round <= 2:
+                business.decision_making += 3
+            elif business.current_round >= 8:
+                business.endurance += 3
+
             business.save()
 
             log = LogEntry(business=business, round =business.current_round, message = f"{business} bought {truck.name} Food Truck." )
@@ -634,6 +663,12 @@ def vc_trade(request,pk):
 
         business.vcOwnership = business.vcOwnership + .02
         business.cashBalance = business.cashBalance + offer
+
+        if business.current_round <= 2:
+            business.decision_making += 1
+        elif business.current_round >= 8:
+            business.endurance += 1
+
         business.save()
 
         log = LogEntry(business=business, round =business.current_round, message = f"{business} made a deal with a VC." )
@@ -664,6 +699,12 @@ def take_loan(request,pk):
             form.save()
 
             business.cashBalance = business.cashBalance + instance.amount
+
+            if business.current_round <= 2:
+                business.decision_making += 2
+            elif business.current_round >= 8:
+                business.endurance += 2
+
             business.save()
 
             log = LogEntry(business=business, round =business.current_round, message = f"{business} took out a loan for {loan.amount}")
@@ -708,6 +749,11 @@ def hire_employee(request,pk):
             instance.save()
             form.save()
 
+            if business.current_round <= 2:
+                business.decision_making += 2
+            elif business.current_round >= 8:
+                business.endurance += 2
+
             log = LogEntry(business=business, round =business.current_round, message = f"{business} hired {employee.name}" )
             log.save()
 
@@ -750,6 +796,11 @@ def payoff_loan(request, pk):
         business.cashBalance -= loan.amount
     else:
         business.cashBalance = business.cashBalance - loan.total_value
+
+    if business.current_round <= 2:
+        business.decision_making += 1
+    elif business.current_round >= 8:
+        business.endurance += 1
         
     business.save()
     loan.delete()
