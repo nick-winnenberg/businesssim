@@ -471,7 +471,7 @@ def purhcase_ingredient(request,pk):
             instance.save()
             form.save()
 
-            log = LogEntry(business=business, round =business.current_round, message = f"{business} chose {ingredient.name}", risk=risk )
+            log = LogEntry(business=business, round =business.current_round, message = f"{business} chose {ingredient.name}")
             log.save()
             return HttpResponseRedirect(reverse('shop', kwargs={'pk':business.id}))
     else:
@@ -528,7 +528,7 @@ def purhcase_truck(request,pk):
             business.cashBalance = business.cashBalance - instance.price
             business.save()
 
-            log = LogEntry(business=business, round =business.current_round, message = f"{business} bought {truck.name} Food Truck.", risk=risk )
+            log = LogEntry(business=business, round =business.current_round, message = f"{business} bought {truck.name} Food Truck." )
             log.save()
 
             return HttpResponseRedirect(reverse('player_dashboard', kwargs={'pk':business.id}))
@@ -636,8 +636,7 @@ def vc_trade(request,pk):
         business.cashBalance = business.cashBalance + offer
         business.save()
 
-        risk = 1
-        log = LogEntry(business=business, round =business.current_round, message = f"{business} made a deal with a VC.", risk=risk )
+        log = LogEntry(business=business, round =business.current_round, message = f"{business} made a deal with a VC." )
         log.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -667,7 +666,7 @@ def take_loan(request,pk):
             business.cashBalance = business.cashBalance + instance.amount
             business.save()
 
-            log = LogEntry(business=business, round =business.current_round, message = f"{business} took out a loan for {loan.amount}", risk=risk )
+            log = LogEntry(business=business, round =business.current_round, message = f"{business} took out a loan for {loan.amount}")
             log.save()
 
             return HttpResponseRedirect(reverse('player_dashboard', kwargs={'pk':business.id}))
@@ -709,7 +708,7 @@ def hire_employee(request,pk):
             instance.save()
             form.save()
 
-            log = LogEntry(business=business, round =business.current_round, message = f"{business} hired {employee.name}", risk=risk )
+            log = LogEntry(business=business, round =business.current_round, message = f"{business} hired {employee.name}" )
             log.save()
 
             return HttpResponseRedirect(reverse('player_dashboard', kwargs={'pk':business.id}))
@@ -1004,9 +1003,6 @@ def the_end(request, pk):
     loans = Loan.objects.filter(owner=business, master=False)
     logs = LogEntry.objects.filter(business=business)
 
-    riskiness_score = 0
-    for i in logs:
-        riskiness_score += i.risk
 
     loan_amount = 0
     for i in loans:
@@ -1019,7 +1015,6 @@ def the_end(request, pk):
         'loans': loans,
         'loan_amount': loan_amount,
         'logs': logs,
-        'riskiness_score':riskiness_score,
     })
 
 @login_required
