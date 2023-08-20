@@ -71,6 +71,7 @@ class Business(models.Model):
     endurance = models.FloatField(default= 0, null=True)
     identity_development = models.FloatField(default= 0, null=True)
     influence = models.FloatField(default= 0, null=True)
+    current_round = models.FloatField(default=0)
     
 
 
