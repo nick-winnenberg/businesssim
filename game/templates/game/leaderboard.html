@@ -23,7 +23,7 @@
                     <td>{{r.business.foodTruckName}}</td>
                     <td>{{r.business.quality | floatformat:2}}</td>
                     <td>{{r.business.priceStrat | floatformat:2}}</td>
-                    <td>{{r.final_score}}</td>
+                    <td>{{r.final_score| floatformat:2}}</td>
                 </tr>
                 {%endfor%}
             </tbody>
