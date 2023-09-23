@@ -424,6 +424,19 @@
 
         </div>
     </div>
+    <div>
+        <h5>Developer Debug Mode: On</h5>
+        <h5>Marketshare</h5>
+        {% for key, value in market_share.items %}
+        <p>{{key}}: {{value}}</p>
+        {%endfor%}
+        <p>{{values_list}}</p>
+        <p>Identity Development: {{idd}}</p>
+        <p>Market Awareness: {{ma}}</p>
+        <p>Endurance: {{end}}</p>
+        <p>Decision Making: {{dm}}</p>
+
+    </div>
 </div>
 {%endif%}
 {%endblock content%}

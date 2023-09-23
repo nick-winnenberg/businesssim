@@ -157,10 +157,18 @@ def player_dashboard(request, pk):
         salaries = salaries + e.salary
         comission = comission + e.comission
 
-    #MarketShare Test
+    #MarketShare
     market_share = dict()
     for d in demographics:
         market_share[d.name] = (d.priceSensitivity * business.priceStrat) + (d.qualitySensitivity*business.quality) + (d.onlineMarketingSensitivity * business.onlineMarketing) + (d.printMarketingSensitivity * business.printMarketing) + (d.wordOfMouthMarketingSensitivity * business.wordOfMouthMarketing)
+
+    market_share = dict(sorted(market_share.items(), key=lambda item: item[1], reverse=True))
+
+    values_list = list(market_share.values())
+
+    business.market_awareness = values_list[0] + values_list[1]
+    business.identity_development = values_list[0] - values_list[-1]
+    business.save()
 
     food_type_turnout = dict()
     for d in demographics:
@@ -226,6 +234,11 @@ def player_dashboard(request, pk):
         'rounds_count': rounds_count,
         'loans':loans,
         'auth':auth,
+        'ma': business.market_awareness,
+        'idd':business.identity_development,
+        'dm':business.decision_making,
+        'end':business.endurance,
+        'values_list':values_list,
     })
 
 @login_required
@@ -493,6 +506,13 @@ def purhcase_ingredient(request,pk):
             instance.master = False
             instance.save()
             form.save()
+
+            if business.current_round == 0:
+                business.decision_making =+ 0
+            elif business.current_round <= 2:
+                business.decision_making += 3
+            elif business.current_round >= 8:
+                business.endurance += 3
 
             log = LogEntry(business=business, round =business.current_round, message = f"{business} chose {ingredient.name}")
             log.save()
@@ -967,6 +987,20 @@ def new_report(request,pk):
     liabilities = 0
     for l in loans:
         liabilities = liabilities + l.total_value
+
+    market_share = dict()
+
+    for d in demographics:
+        if business.foodType == "Comfort Food":
+            market_share[d.name] = d.comfortFoodPreference  * ((d.priceSensitivity * business.priceStrat) + (d.qualitySensitivity*business.quality) + (d.onlineMarketingSensitivity * business.onlineMarketing) + (d.printMarketingSensitivity * business.printMarketing) + (d.wordOfMouthMarketingSensitivity * business.wordOfMouthMarketing))
+        elif business.foodType == "Italian":
+            market_share[d.name] = d.italianFoodPreference  * ((d.priceSensitivity * business.priceStrat) + (d.qualitySensitivity*business.quality) + (d.onlineMarketingSensitivity * business.onlineMarketing) + (d.printMarketingSensitivity * business.printMarketing) + (d.wordOfMouthMarketingSensitivity * business.wordOfMouthMarketing))
+        elif business.foodType == "Asian":
+            market_share[d.name] = d.asianFoodPreference * ((d.priceSensitivity * business.priceStrat) + (d.qualitySensitivity*business.quality) + (d.onlineMarketingSensitivity * business.onlineMarketing) + (d.printMarketingSensitivity * business.printMarketing) + (d.wordOfMouthMarketingSensitivity * business.wordOfMouthMarketing))
+        elif business.foodType == "Dessert":
+            market_share[d.name] = d.dessertPreference  * ((d.priceSensitivity * business.priceStrat) + (d.qualitySensitivity*business.quality) + (d.onlineMarketingSensitivity * business.onlineMarketing) + (d.printMarketingSensitivity * business.printMarketing) + (d.wordOfMouthMarketingSensitivity * business.wordOfMouthMarketing))
+        elif business.foodType == "Smoothie":
+            market_share[d.name] = d.smoothieFoodPreference * ((d.priceSensitivity * business.priceStrat) + (d.qualitySensitivity*business.quality) + (d.onlineMarketingSensitivity * business.onlineMarketing) + (d.printMarketingSensitivity * business.printMarketing) + (d.wordOfMouthMarketingSensitivity * business.wordOfMouthMarketing))
     
 
     owners_equity = float(assets) - float(liabilities)
