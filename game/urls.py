@@ -39,4 +39,6 @@ urlpatterns = [
     path('the_end/<int:pk>', views.the_end, name='the_end'),
     path('scoreboard/<int:pk>', views.scoreboard, name='scoreboard'),
     path('payoff_loan/<int:pk>', views.payoff_loan, name='payoff_loan'),
+    path('pull_results/<int:pk>', views.pull_results, name='pull_results'),
+
 ]

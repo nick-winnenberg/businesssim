@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 from .forms import *
 from .models import *
-import random
+import random, csv
 
 def paymentCalc(principal,intrest,number_of_periods):
     principal = principal
@@ -1117,3 +1117,21 @@ def scoreboard(request, pk):
         'reports':reports,
     })
 
+def pull_results(request, pk):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="results.csv"'},
+    )
+
+    scenerio = get_object_or_404(Scenerio, id=pk)
+    businesses = Business.objects.filter(scenerio=scenerio)
+    reports = Report.objects.filter(scenerio=scenerio)
+
+    writer = csv.writer(response)
+    writer.writerow(["Name", "Final Score", "Market Awareness", "Decision Making", "Endurance", "Identity Development", "Player Gender","Formal Education", "Business Experince","Job Title","Industry","Total Sales","Total Revenue","Total Varriable Costs","Total Fixed Costs"])
+    
+    for i in reports:
+        writer.writerow([i.business.foodTruckName, i.final_score, i.business.market_awareness, i.business.decision_making, i.business.endurance, i.business. identity_development, i.business.gender, i.business.yearsofBusinessEducationExperince,i.business.yearsProfessionalExperince,i.business.jobTitle,i.business.industry,i.total_sales,i.total_revenue,i.total_varriable_costs,i.total_fixed_costs])
+
+    return response
