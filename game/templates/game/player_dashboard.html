@@ -27,15 +27,14 @@
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
                         {%if rounds_count == 0%}
-                        <p>Welcome to the player dashboard! This message is displayed because you haven't move onto the next round yet.</p>
-                        <p>If you haven't selected your ingredients, or food truck, make sure to do that before moving onto the next round.</p>
-                        <p>Notice that you also have the ability to hire employees, or launch marketing campaigns.</p>
+                        <p>Welcome to the player dashboard! This message is displayed because you must still move onto the next round.</p>
+                        <p>If you still need to select your ingredients or food truck, ensure that before moving on to the next round.</p>
+                        <p>Notice that you also have the ability to hire employees or launch marketing campaigns.</p>
                         <h3>Employees</h3>
-                        <p>Hiring employees increases your meal capacity if your food truck capacity is higher than your employee capacity. Likewise, they can increase or decrease qualtiy score.</p>
+                        <p>Hiring employees increases your meal capacity if your food truck capacity exceeds your employee capacity. Likewise, they can increase or decrease quality scores.</p>
                         <h3>Marketing Campaigns</h3>
                         <p>Investing in marketing campaigns helps meet the sensitives of your target demographic. If you need a refresher on the demographics, click Market Research.</p>
-                        <p>Feel free to adapt your strategy on the dashboard, otherwise if you're feeling bullish, click next round below!</p>
-                        {%else%}
+                        <p>Feel free to adapt your strategy on the dashboard; otherwise, if you feel bullish, click the next round below!</p>
                         <p>{{current_round.description}}</p>
                         {%endif%}
                     </blockquote>
