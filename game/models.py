@@ -55,7 +55,7 @@ class Business(models.Model):
     scenerio = models.ForeignKey(Scenerio, on_delete=models.CASCADE, related_name="food_truck_bus_scenerio")
     quality = models.FloatField(default=.10)
     capacity = models.IntegerField(default=100)
-    price = models.IntegerField(default=10)
+    price = models.IntegerField(default=10, validators=[MinValueValidator(1), MaxValueValidator(50)])
     priceStrat = models.FloatField(default=.50)
     onlineMarketing = models.FloatField(default=.10)
     printMarketing = models.FloatField(default=.10)
@@ -82,7 +82,7 @@ class Business(models.Model):
 class FoodTruck(models.Model):
     name = models.CharField(max_length=200)
     scenerio = models.ForeignKey(Scenerio, on_delete=models.CASCADE, related_name="food_truck_scenerio")
-    price = models.DecimalField(default=10000, max_digits=100, decimal_places=2, validators=[MinValueValidator(1), MaxValueValidator(50)])
+    price = models.DecimalField(default=10000, max_digits=100, decimal_places=2)
     description = models.CharField(max_length=2000)
     capacityBonus = models.IntegerField(default=1000)
     qualityBonus = models.FloatField(default=.03)
