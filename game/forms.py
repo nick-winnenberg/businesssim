@@ -83,3 +83,8 @@ class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
         fields = ["feedback"]
+    
+class ConsentForm(forms.ModelForm):
+    class Meta:
+        model = Consent
+        fields = ["first_name","last_name","email"]

@@ -240,7 +240,7 @@ class LogEntry(models.Model):
     def __str__(self):
         return self.message
     
-class ConsentForm(models.Model):
+class Consent(models.Model):
     first_name = models.CharField(max_length=2000)
     last_name = models.CharField(max_length=2000)
     email = models.CharField(max_length=2000)

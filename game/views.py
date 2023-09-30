@@ -1118,6 +1118,7 @@ def scoreboard(request, pk):
     })
 
 def pull_results(request, pk):
+
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(
         content_type="text/csv",
@@ -1135,3 +1136,16 @@ def pull_results(request, pk):
         writer.writerow([i.business.foodTruckName, i.business.foodType, i.final_score, i.business.market_awareness, i.business.decision_making, i.business.endurance, i.business. identity_development, i.business.gender, i.business.yearsofBusinessEducationExperince,i.business.yearsProfessionalExperince,i.business.jobTitle,i.business.industry,i.total_sales,i.total_revenue,i.total_varriable_costs,i.total_fixed_costs])
 
     return response
+
+def consent_form(request):
+    if request.method == 'POST':
+        form = ConsentForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.master = True
+            instance.save()
+            form.save()
+            return HttpResponseRedirect(reverse('game-home'))
+    else:
+        form = ConsentForm()
+    return render(request, 'game/consent_form.html', {'form': form})

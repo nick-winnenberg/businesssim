@@ -1,0 +1,124 @@
+{% extends "game/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Food Truck Rally Consent Form</legend>
+            <h1>Welcome!</h1>
+            <br>
+            <h5>Title of Research: Business Simulations in Entrepreneurship Education</h5>
+            <h5>Researchers: Nick Winnenberg (nw454410@ohio.edu), Dr. Luke Pittaway (pittaway@ohio.edu)</h5>
+            <p>IRB number: 23-X-94 </p>
+
+            <p>Once you have read this form and your questions about the study are answered, you will be asked to
+                indicate your consent by clicking “I consent” before participating in this study.</p>
+
+            <h5>Purpose of Study</h5>
+            <p>This study is being done because there is a great opportunity for experiential learning in
+                entrepreneurship. While traditional business coursework is functional role-heavy (marketing, accounting,
+                management), entrepreneurship has a wider breadth. The research aims to help identify the best format
+                for business simulations from an entrepreneurship education perspective.</p>
+
+            <p>You are being asked to participate in this study because we are reaching out to a wide audience with
+                different business education and professional experiences across multiple industries. </p>
+
+            <h5>Study Procedures</h5>
+            <p>If you agree to participate, you will be asked to create a fiction food truck by analyzing different
+                market segments, name and craft your business identity, select a menu for your food truck, then run
+                through 10 separate “rounds”. During each round you can make different strategic decisions, including
+                hiring/firing employees, investing in marketing, increasing/decreasing prices, etc.</p>
+
+            <p>This simulation game typically takes between 20-40 minutes; if you do not have time for the simulation,
+                please revisit another time. Before progressing with the survey, then ultimately the simulation, you’ll
+                be asked to create an account to access the simulation, this include an email address and password.</p>
+
+            <p>The simulation flow is as follows:</p>
+
+            <ol>
+                <li>Survey Marketing Demographic Information on Fictional Food Truck Rally Food Truck Identity Creation
+                    (Name, Food Type, Etc.)</li>
+                <li>Menu Ingredient Selection</li>
+                <li>Food Truck Selection</li>
+                <li>Player Dashboard</li>
+                <li>Then after 10 rounds, you will be presented with a leaderboard looking at the high score of your
+                    food truck.</li>
+            </ol>
+
+            <p>This leaderboard will not have any identifiable information other than the name of your food truck.</p>
+
+            <h5>Risks and Discomforts You May Experience</h5>
+            <p>Risks or discomforts that you might experience are data-loss or breach of confidentiality. The
+                information we are gathering is an email, years of professional experience, years of business education
+                experience, job title, industry, and gender. Everything else gathered is fictional. Please do not
+                provide any additional information.</p>
+
+            <h5>Possible Benefits</h5>
+            <p>This study is important to science/society because it allows us to better craft entrepreneurship
+                education programs. Likewise, it allows businesses to create better decisions and lays a foundation for
+                how to simulate real-world markets.</p>
+
+            <p>Individually, you may benefit as this is a fun game to rank your business results against others!</p>
+
+            <h5>Confidentiality and Records</h5>
+            <p>The information below describes how the confidentiality of your research records will be protected in
+                this study. All the information is stored in a protected database to which only the software
+                administrators have access. There is a very small chance of any data breach occurring. If it does, no
+                sensitive or private information is gathered.</p>
+
+            <p>Additionally, while every effort will be made to keep your study-related information confidential, there
+                may be circumstances where this information must be shared with:</p>
+
+            <ul>
+                <li>Federal agencies, for example the Office of Human Research Protections, whose responsibility is to
+                    protect human subjects in research.</li>
+                <li>Representatives of Ohio University (OU), including the Institutional Review Board, a committee that
+                    oversees the research at OU.</li>
+            </ul>
+
+            <h5>Compensation</h5>
+            <p>No compensation will be provided for participating in this research. </p>
+
+            <h5>Cost to Participate in the Research</h5>
+            <p>There is no cost to you for participating in this research.</p>
+
+            <h5>Voluntary Participation</h5>
+            <p>Your participation in this research is completely voluntary, and you may leave the study at any time. If
+                you decide to stop participating in the study, there will be no penalty to you or your relationship with
+                Ohio University, and you will not lose any benefits to which you are otherwise entitled.</p>
+
+            <h5>Withdrawal from Study</h5>
+            <p>The investigators conducting the study may need to remove you from the study for a number of possible
+                reasons, such as failure to follow directions or to protect you from excessive risk. If you leave the
+                study early, either by voluntarily withdrawing or because the investigators remove you, data you
+                provided up to that point will remain in the study database unless you explicitly request to withdraw
+                your identifiable data.</p>
+
+            <h5>Conflict of Interest Disclosure</h5>
+            <p>The researchers have no relevant conflicts of interest to disclose.</p>
+
+            <h5>Withdrawal from Study</h5>
+            <p>The investigators conducting the study may need to remove you from the study for a number of possible
+                reasons, such as failure to follow directions or to protect you from excessive risk. If you leave the
+                study early, either by voluntarily withdrawing or because the investigators remove you, data you
+                provided up to that point will remain in the study database unless you explicitly request to withdraw
+                your identifiable data.</p>
+
+            <h5>Conflict of Interest Disclosure</h5>
+            <p>The researchers have no relevant conflicts of interest to disclose.</p>
+
+            <h5>Contact Information</h5>
+            <p>If you have any questions regarding this study, please contact the investigator Nick Winnenberg at
+                (513)818-7323 or email at nw454410@ohio.edu or Dr. Luke Pittaway at Pittaway.ohio.edu.</p>
+
+            <p>If you have any questions regarding your rights as a research participant, please contact the Director of
+                Research Compliance, Ohio University, (740) 593-0664 or compliance@ohio.edu.</p>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">I Consent</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

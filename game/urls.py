@@ -3,7 +3,7 @@ from .views import *
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='game-home'),
+    path('home', views.home, name='game-home'),
     path('scenerio/new', views.new_scenerio, name='new_scenerio'),
     path('scenerio/maker/<int:pk>', views.scenerio_maker, name='scenerio_maker'),
     path('foodtruck/new/<int:pk>', views.new_food_truck, name='new_food_truck'),
@@ -40,5 +40,6 @@ urlpatterns = [
     path('scoreboard/<int:pk>', views.scoreboard, name='scoreboard'),
     path('payoff_loan/<int:pk>', views.payoff_loan, name='payoff_loan'),
     path('pull_results/<int:pk>', views.pull_results, name='pull_results'),
+    path('', views.consent_form, name='consent_form'),
 
 ]
