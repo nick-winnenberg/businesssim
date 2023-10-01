@@ -57,6 +57,7 @@
 <br>
 
     {%for scenerio in scenerios %}
+    {%if scenerio.name != "Old Version%}
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="{% static 'game/images/homeft.png' %}" alt="Card image cap">
         <div class="card-body">
@@ -72,7 +73,12 @@
             <a href="{%url 'pull_results' scenerio.pk%}" class="btn btn-warning">Pull Results</a>
             {%endif%}
         </div>
+
+
     </div>
+    {%else%}
+    <div></div>
+    {%endif%}
     {% endfor %}
 
 
