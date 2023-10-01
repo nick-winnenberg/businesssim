@@ -202,7 +202,7 @@ class RoundNew(models.Model):
     comments = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return self.number
+        return self.business
     
 class Report(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name="report_business")

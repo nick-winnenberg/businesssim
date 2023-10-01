@@ -79,8 +79,8 @@ def player_dashboard(request, pk):
     employees = Employee.objects.filter(owner=business, master=False)
     rounds = RoundNew.objects.filter(business=business).order_by("number")
     demographics = MarketSegment.objects.filter(scenerio=scenerio)
-    current_round = rounds.last()
 
+    current_round = rounds.last()
     ingredient_count = ingredients.count()
     rounds_count = rounds.count()
 
@@ -913,22 +913,23 @@ def next_round(request,pk):
     net_income = revenue - total_varriable_cost - total_fixed_cost
     tax_expense = .20 * net_income
     profit = round(net_income -tax_expense)
-    
-    message = ""
 
-    if round_number >= 10:
-        message = message + "This is the last round! Click End Game to see your results. "
+    message = f"Feedback on round {round_number}! "
+    
+    if weather >.85:
+        message = message + "The weather was great"
+    elif weather < .65:
+        message = message + "The weather was no good"
+    else: message = message +"The weather was just okay"
+
+    message = message + f" and you sold a total of {total_quantity_sold} meals. "
+
+    message = message+ f"You brought in ${revenue} in revenue, resulting in ${profit} after expenses. "
 
     if total_quantity_sold == business.capacity:
-        message = message + "Dang! You sold out. You need to increase your capacity. Consider hiring staff or investing in another food truck. What's your bottle neck right now? What's stopping you from making more meals? "
-
-    if profit > 0: 
-        message = message + "Congrats! You made positive profits this month. Keep the trend going! "
-    else: message = message + "Uh-Oh, looks like you were in the red this month. Take a look at your fixed and varriable costs. Can you increase your meal price? Can you lower your monthly expenses somehow? "
-
-    message = message + f"It looks like you sold {total_quantity_sold} meals at ${business.price}, resulting in a net revenue of ${revenue}. After expenses, you brought in ${profit}. "
-
-
+        message = message + f"You did sell out - so consider increasing the capacity of your operation, raise your prices, or get creative. Hint: What is your current bottle neck?"
+    elif total_quantity_sold < business.capacity: 
+        message = message + f"You had the capacity for {business.capacity - total_quantity_sold} more meals. What's stopping you from selling more?"
 
     #Ingredient Cost
 

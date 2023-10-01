@@ -35,7 +35,8 @@
                         <h3>Marketing Campaigns</h3>
                         <p>Investing in marketing campaigns helps meet the sensitives of your target demographic. If you need a refresher on the demographics, click Market Research.</p>
                         <p>Feel free to adapt your strategy on the dashboard; otherwise, if you feel bullish, click the next round below!</p>
-                        <p>{{current_round.description}}</p>
+                        {%else%}
+                        {{current_round.description}}
                         {%endif%}
                     </blockquote>
                     {%if business.cashBalance > -1 %}
@@ -48,6 +49,7 @@
                     <a href="#" class="btn btn-danger btn-sm">You cannot move onto the next round with a negative cash balance!</a>
                     {%endif%}
                     <a href="{%url 'new_report' business.pk%}" class="btn btn-danger btn-sm">End Game</a>
+
                 </div>
             </div>
         </div>
