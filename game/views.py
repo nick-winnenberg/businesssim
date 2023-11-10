@@ -1131,10 +1131,10 @@ def pull_results(request, pk):
     reports = Report.objects.filter(scenerio=scenerio)
 
     writer = csv.writer(response)
-    writer.writerow(["Name", "Food Type","Final Score", "Market Awareness", "Decision Making", "Endurance", "Identity Development", "Player Gender","Formal Education", "Business Experince","Job Title","Industry","Total Sales","Total Revenue","Total Varriable Costs","Total Fixed Costs"])
+    writer.writerow(["Name", "Food Type","Final Score", "Market Awareness", "Decision Making", "Endurance", "Identity Development", "Player Gender","Formal Education", "Business Experince","Job Title","Industry","Total Sales","Total Revenue","Total Varriable Costs","Total Fixed Costs","Feedback"])
     
     for i in reports:
-        writer.writerow([i.business.foodTruckName, i.business.foodType, i.final_score, i.business.market_awareness, i.business.decision_making, i.business.endurance, i.business. identity_development, i.business.gender, i.business.yearsofBusinessEducationExperince,i.business.yearsProfessionalExperince,i.business.jobTitle,i.business.industry,i.total_sales,i.total_revenue,i.total_varriable_costs,i.total_fixed_costs])
+        writer.writerow([i.business.foodTruckName, i.business.foodType, i.final_score, i.business.market_awareness, i.business.decision_making, i.business.endurance, i.business. identity_development, i.business.gender, i.business.yearsofBusinessEducationExperince,i.business.yearsProfessionalExperince,i.business.jobTitle,i.business.industry,i.total_sales,i.total_revenue,i.total_varriable_costs,i.total_fixed_costs,i.feedback])
 
     return response
 
